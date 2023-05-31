@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>NMSU Lab Crabs</title>
+
+    <!-- Font awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div id="enable-sound-popup" class="enable-sound-popup">
+        <div class="enable-sound-content">
+          <span class="close-btn" id="enable-sound-no">&times;</span>
+          <p>Enable sound notifications?</p>
+          <button id="enable-sound-yes" class="button-green">Yes</button>
+          <button id="enable-sound-no" class="button-red">No</button>
+        </div>
+      </div>
+
+      <!---Notification Window-->
+      <div id="notification" class="notif hide">
+        <!---Notifcation content-->
+        <div class="notif-container">
+          <button id="closenotif" class="close">Snooze (5 mins)</button>
+          <p class="printer-notif">PRINTER DOWN</p>
+        </div>
+      </div>
+
+      <table class="wepa-table" id="wepaTable">
+        <tr>
+          <th>Serial</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Notifications</th>
+        </tr>
+      </table>
+
+      <div class="right-panel">
+        <div class="birthday-tracker">
+          <h2>Upcoming Birthdays</h2>
+          <ul id="birthday-list">
+            <!-- List items will be dynamically populated here -->
+          </ul>
+        </div>
+
+        <div class="settings-panel">
+          <div class="vol-slider-container">
+            <label for="volume-slider">
+              <i class="fas fa-volume-up fa-lg"></i>
+            
+            </label>
+            <input
+              id="volume-slider"
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value="1"
+            />
+          </div>
+
+          <button id="sound-test">Test Sound</button>
+          <select name="sounds-options" id="sound-select">
+            <option value="sounds/notification.mp3">Default</option>
+            <option value="sounds/coffeepot.mp3">
+              That one kettle pot from that one finals week
+            </option>
+            <option value="sounds/MYLEG.mp3">MY LEG</option>
+            <option value="sounds/sellingChocolate.mp3">
+              Selling Chocolate
+            </option>
+            <option value="sounds/isThisTheKrustyKrab.mp3">
+              Is This The Krusty Krab
+            </option>
+            <option value="sounds/MrKrabsRobotSongOriginal.mp3">
+              Mr Krabs Robot Song
+            </option>
+            <option value="sounds/MrKrabsRobotSongRemix.mp3">
+              Mr Krabs Robot Song Remix
+            </option>
+            <option value="sounds/whoYouCallinPinhead.mp3">
+              Who You Callin Pinhead
+            </option>
+            <option value="sounds/spongebobAndPatrickRobABank.mp3">
+              Sponge & Patrick Rob A Bank
+            </option>
+            <option value="sounds/Patrick_Screaming.mp3">
+              Patrick Screaming
+            </option>
+            <option value="sounds/wumbo.mp3">Wumbo</option>
+            <option value="sounds/hailTheMagicConch.mp3">
+              All Hail The Magic Conch
+            </option>
+            <option value="sounds/future.mp3">Future</option>
+            <option value="sounds/whatInTarnation.mp3">
+              What In Tarnation
+            </option>
+            <option value="sounds/gabagool.mp3">Wheres the gabagool</option>
+            <option value="sounds/NEHOYMENOY.mp3">
+              NEHOY MENOY HOY MENYOY!
+            </option>
+            <option value="sounds/JellyfishJam.mp3">Jellyfish Jam</option>
+            <option value="sounds/Redbone - Carl Wheezer.mp3">
+              Redbone - Carl Wheezer
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="js/client.js"></script>
+  </body>
+</html>
