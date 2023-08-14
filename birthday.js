@@ -3,7 +3,7 @@
 // const BACKEND_URL = 'https://labcrabs.com'
 
 export async function fetchBirthdays() {
-  console.log('ay im walking heree');
+  console.log('ay im walking here!');
   console.log('fetch birthdays function called')
   const response = await fetch('/birthdays')
   const birthdays = await response.json()
