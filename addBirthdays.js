@@ -11,18 +11,6 @@ connectToDatabase();
     birthDay: 1,
   });
 
-  let miguelsBirthday = new Birthday({
-    name: 'Miguel',
-    birthMonth: 5,
-    birthDay: 15,
-  });
-
-  let jacobsBirthday = new Birthday({
-    name: 'Jacob',
-    birthMonth: 8,
-    birthDay: 20,
-  });
-
   let luisBirthday = new Birthday({
     name: 'Luis',
     birthMonth: 3,
@@ -47,42 +35,13 @@ connectToDatabase();
     birthDay: 7,
   });
 
-
-  let matthewBirthday = new Birthday({
-    name: 'Matthew',
-    birthMonth: 6,
-    birthDay: 4,
-  });
-
-  let frankieBirthday = new Birthday({
-    name: 'Frankie',
-    birthMonth: 6,
-    birthDay: 3,
-  });
-
-  let chrisBirthday = new Birthday({
-    name: 'Chris',
-    birthMonth: 9,
-    birthDay: 18,
-  });
-
   let micaelaBirthday = new Birthday({
     name: 'Micaela',
     birthMonth: 1,
     birthDay: 1,
   });
 
-  let christianBirthday = new Birthday({
-    name: 'Christian',
-    birthMonth: 1,
-    birthDay: 11,
-  });
-
-  let miaBirthday = new Birthday({
-    name: 'Mia',
-    birthMonth: 6,
-    birthDay: 3,
-  });
+ 
 
   let felixBirthday = new Birthday({
     name: 'Felix',
@@ -108,14 +67,8 @@ connectToDatabase();
     birthDay: 8,
   });
 
-  let jonathanBirthday = new Birthday({
-    name: 'Jonathan',
-    birthMonth: 1,
-    birthDay: 14,
-  });
-
-  let adrianBirthday = new Birthday({
-    name: 'Adrian',
+  let adrianCBirthday = new Birthday({
+    name: 'Adrian C',
     birthMonth: 5,
     birthDay: 16,
   });
@@ -132,17 +85,14 @@ connectToDatabase();
     birthDay: 16,
   });
 
-  let casseyBirthday = new Birthday({
-    name: 'Cassey',
-    birthMonth: 1,
-    birthDay: 10,
-  });
 
   let jefferyBirthday = new Birthday({
     name: 'Jeffery',
     birthMonth: 5,
     birthDay: 28,
   });
+
+
 
   let aryannaBirthday = new Birthday({
     name: 'Aryanna',
@@ -156,32 +106,58 @@ connectToDatabase();
     birthDay: 11,
   });
 
+  let nathanBirthday = new Birthday({ 
+    name: 'Nathan',
+    birthMonth: 8,
+    birthDay: 15,
+  });
+
+  let ethanBirthday = new Birthday({
+    name: 'Ethan',
+    birthMonth: 7,
+    birthDay: 16,
+  });
+
+  let adrianHBirthday = new Birthday({
+    name: 'Adrian H',
+    birthMonth: 8,
+    birthDay: 1,
+  });
+
+  let jacquelineBirthday = new Birthday({
+    name: 'Jacqueline',
+    birthMonth: 12,
+    birthDay: 26,
+  });
+
+  let toriBirthday = new Birthday({
+    name: 'Tori',
+    birthMonth: 5,
+    birthDay: 21,
+  });
   const birthdays = [
     marysBirthday,
-    miguelsBirthday,
-    jacobsBirthday,
     luisBirthday,
     aidanBirthday,
     ulissesBirthday,
     jamesBirthday,
-    matthewBirthday,
-    frankieBirthday,
-    chrisBirthday,
     micaelaBirthday,
-    christianBirthday,
-    miaBirthday,
     felixBirthday,
     ivanBirthday,
     rafaelBirthday,
     keaneBirthday,
-    jonathanBirthday,
-    adrianBirthday,
+    adrianCBirthday,
     jayceBirthday,
     catherineBirthday,
-    casseyBirthday,
     jefferyBirthday,
     aryannaBirthday,
     emmaBirthday,
+
+    nathanBirthday,
+    adrianHBirthday,
+    ethanBirthday,
+    jacquelineBirthday,
+    toriBirthday,
   ];
 
   await Birthday.deleteMany({});
