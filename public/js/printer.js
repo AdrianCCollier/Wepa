@@ -19,6 +19,11 @@ export const kioskPositions = {
 
 let alarms = {}
 
+// Helper function to truncate toner/drum/fuser/belt percentages being returned as floats
+function roundPercentage(value) {
+  return Math.round(parseFloat(value));
+}
+
 export async function fetchPrinters() {
   const response = await fetch(`/printers`)
   if (!response.ok) {
@@ -41,7 +46,7 @@ export async function fetchPrinters() {
 
 
     printers.forEach((printer) => {
-      const { name, location, status } = printer
+      const { name, location, status, consumablesRemaining } = printer
 
       const printerData = {
         name: name.replace('KIOSK_PROD_', ''),
@@ -50,6 +55,23 @@ export async function fetchPrinters() {
             `${location.locationDescription}, ${location.buildingDescription}`
           ] || kioskPositions[name],
         status: status.printerStatus,
+
+        // New data added to table, populates latest messages correctly
+        statusMessage: status.kioskStatus,
+        printerText: status.snmpAlertsText,
+
+        tonerBlack: consumablesRemaining.toner.black,
+        tonerCyan: consumablesRemaining.toner.cyan,
+        tonerMagenta: consumablesRemaining.toner.magenta,
+        tonerYellow: consumablesRemaining.toner.yellow,
+        
+        drumBlack: consumablesRemaining.drum.black,
+        drumCyan: consumablesRemaining.drum.cyan,
+        drumMagenta: consumablesRemaining.drum.magenta,
+        drumYellow: consumablesRemaining.drum.yellow,
+
+        belt: consumablesRemaining.belt,
+        fuser: consumablesRemaining.fuser,
       }
 
       const alarmState = localStorage.getItem(printerData.name)
@@ -69,15 +91,53 @@ export function addPrinterToTable(printerData) {
   const statusCell = row.insertCell(2)
   const alarmCell = row.insertCell(3)
   alarmCell.className = 'alarm-cell';
+  const statusMessageCell = row.insertCell(4)
+  const printerTextCell = row.insertCell(5)
+  
+  const tonerCell = row.insertCell(6)
+  const tonerTable = document.createElement('table')
+  const tonerRow = tonerTable.insertRow(0);
+
+  const tonerBlackCell = tonerRow.insertCell(0);
+  const tonerCyanCell = tonerRow.insertCell(1);
+  const tonerMagentaCell = tonerRow.insertCell(2);
+  const tonerYellowCell = tonerRow.insertCell(3);
+
+  tonerBlackCell.innerHTML = 'B ' + roundPercentage(printerData.tonerBlack) + '%';
+  tonerCyanCell.innerHTML = 'C ' + roundPercentage(printerData.tonerYellow) + '%';
+  tonerMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.tonerMagenta) + '%';
+  tonerYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.tonerYellow) + '%';
+  tonerCell.appendChild(tonerTable)
+
+  const drumCell = row.insertCell(7);
+  const drumTable = document.createElement('table');
+  const drumRow = drumTable.insertRow(0);
+
+  const drumBlackCell = drumRow.insertCell(0)
+  const drumCyanCell = drumRow.insertCell(1)
+  const drumMagentaCell = drumRow.insertCell(2)
+  const drumYellowCell = drumRow.insertCell(3)
+
+  drumBlackCell.innerHTML = 'B ' + roundPercentage(printerData.drumBlack) + '%'
+  drumCyanCell.innerHTML = 'C '+ roundPercentage(printerData.drumCyan) + '%'
+  drumMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.drumMagenta) + '%'
+  drumYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.drumYellow) + '%'
+  drumCell.appendChild(drumTable)
+
+  const beltCell = row.insertCell(8)
+  const fuserCell = row.insertCell(9)
 
   nameCell.innerHTML = printerData.name
   locationCell.innerHTML = printerData.location
   statusCell.innerHTML = printerData.status
-
-const toggleSwitch = document.createElement('div')
-toggleSwitch.className = 'toggle'
-toggleSwitch.id = 'switch'
-toggleSwitch.innerHTML = `
+  statusMessageCell.innerHTML = printerData.statusMessage;
+  printerTextCell.innerHTML = printerData.printerText
+  beltCell.innerHTML = roundPercentage(printerData.belt) + '%'
+  fuserCell.innerHTML = roundPercentage(printerData.fuser) + '%'
+  const toggleSwitch = document.createElement('div')
+  toggleSwitch.className = 'toggle'
+  toggleSwitch.id = 'switch'
+  toggleSwitch.innerHTML = `
     <div class='toggle-text-off'>OFF</div>
     <div class='glow-comp'></div>
     <div class='toggle-button'></div>

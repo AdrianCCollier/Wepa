@@ -14,6 +14,7 @@ const clientId = process.env.WEPA_CLIENT_ID
 const clientSecret = process.env.WEPA_CLIENT_SECRET
 let bearerToken;
 
+// Fetch new token
 (async () => {
   try {
     bearerToken = await getAccessToken();
@@ -23,21 +24,20 @@ let bearerToken;
 })();
 const app = express()
 
-// app.use(function (req, res, next) {
-//   if (req.headers['x-forwarded-proto'] != 'https') {
-//     res.redirect(301, 'https://' + req.headers.host + req.url)
-//   } else {
-//     next()
-//   }
-// })
 
+// Connect to database
 connectToDatabase()
+
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 app.set('views', 'public')
 
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 
+
+// make API call with credentials derived from earlier bearer token
+// Store API response into data variable
 async function getAccessToken() {
   const response = await fetch('https://api.wepanow.com/oauth/token', {
     method: 'POST',
@@ -58,6 +58,7 @@ async function getAccessToken() {
 
   const data = await response.json()
   return data.access_token
+  console.log(data)
 }
 
 async function fetchPrinters() {

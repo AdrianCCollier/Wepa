@@ -392,6 +392,7 @@ button:hover {
   border-collapse: collapse;
   width: 40%;
   height: 80%;
+  font-size: small;
 }
 
 th,
