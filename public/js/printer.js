@@ -103,10 +103,10 @@ export function addPrinterToTable(printerData) {
   const tonerMagentaCell = tonerRow.insertCell(2);
   const tonerYellowCell = tonerRow.insertCell(3);
 
-  tonerBlackCell.innerHTML = 'B ' + roundPercentage(printerData.tonerBlack) + '%';
-  tonerCyanCell.innerHTML = 'C ' + roundPercentage(printerData.tonerYellow) + '%';
-  tonerMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.tonerMagenta) + '%';
-  tonerYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.tonerYellow) + '%';
+  tonerBlackCell.innerHTML = 'B ' + roundPercentage(printerData.tonerBlack) 
+  tonerCyanCell.innerHTML = 'C ' + roundPercentage(printerData.tonerYellow) 
+  tonerMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.tonerMagenta) 
+  tonerYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.tonerYellow) 
   tonerCell.appendChild(tonerTable)
 
   const drumCell = row.insertCell(7);
@@ -118,10 +118,10 @@ export function addPrinterToTable(printerData) {
   const drumMagentaCell = drumRow.insertCell(2)
   const drumYellowCell = drumRow.insertCell(3)
 
-  drumBlackCell.innerHTML = 'B ' + roundPercentage(printerData.drumBlack) + '%'
-  drumCyanCell.innerHTML = 'C '+ roundPercentage(printerData.drumCyan) + '%'
-  drumMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.drumMagenta) + '%'
-  drumYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.drumYellow) + '%'
+  drumBlackCell.innerHTML = 'B ' + roundPercentage(printerData.drumBlack)
+  drumCyanCell.innerHTML = 'C '+ roundPercentage(printerData.drumCyan) 
+  drumMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.drumMagenta) 
+  drumYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.drumYellow) 
   drumCell.appendChild(drumTable)
 
   const beltCell = row.insertCell(8)
@@ -132,8 +132,8 @@ export function addPrinterToTable(printerData) {
   statusCell.innerHTML = printerData.status
   statusMessageCell.innerHTML = printerData.statusMessage;
   printerTextCell.innerHTML = printerData.printerText
-  beltCell.innerHTML = roundPercentage(printerData.belt) + '%'
-  fuserCell.innerHTML = roundPercentage(printerData.fuser) + '%'
+  beltCell.innerHTML = roundPercentage(printerData.belt)
+  fuserCell.innerHTML = roundPercentage(printerData.fuser) 
   const toggleSwitch = document.createElement('div')
   toggleSwitch.className = 'toggle'
   toggleSwitch.id = 'switch'
