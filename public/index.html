@@ -12,6 +12,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
+
+    
   </head>
   <body>
     <div class="main">
@@ -33,6 +35,7 @@
         </div>
       </div>
 
+      <div class="table-container">
       <table class="wepa-table" id="wepaTable">
         <tr>
           <th>Serial</th>
@@ -47,6 +50,7 @@
           <th>Fuser %</th>
         </tr>
       </table>
+      </div>
 
       <div class="right-panel">
         <div class="birthday-tracker">
@@ -71,7 +75,8 @@
             />
           </div>
 
-          <button id="sound-test">Test Sound</button>
+          <button id="sound-test" class="GUI-button">Test Sound</button>
+          <button id="collapse-button" class="GUI-button">Collapse</button>
           <select name="sounds-options" id="sound-select">
             <option value="sounds/notification.mp3">Default</option>
             <option value="sounds/coffeepot.mp3">

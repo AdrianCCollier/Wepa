@@ -90,28 +90,28 @@ export function addPrinterToTable(printerData) {
   const locationCell = row.insertCell(1)
   const statusCell = row.insertCell(2)
   const alarmCell = row.insertCell(3)
-  alarmCell.className = 'alarm-cell';
+  alarmCell.className = 'alarm-cell'
   const statusMessageCell = row.insertCell(4)
   const printerTextCell = row.insertCell(5)
-  
+
   const tonerCell = row.insertCell(6)
   const tonerTable = document.createElement('table')
-  const tonerRow = tonerTable.insertRow(0);
+  const tonerRow = tonerTable.insertRow(0)
 
-  const tonerBlackCell = tonerRow.insertCell(0);
-  const tonerCyanCell = tonerRow.insertCell(1);
-  const tonerMagentaCell = tonerRow.insertCell(2);
-  const tonerYellowCell = tonerRow.insertCell(3);
+  const tonerBlackCell = tonerRow.insertCell(0)
+  const tonerCyanCell = tonerRow.insertCell(1)
+  const tonerMagentaCell = tonerRow.insertCell(2)
+  const tonerYellowCell = tonerRow.insertCell(3)
 
-  tonerBlackCell.innerHTML = 'B ' + roundPercentage(printerData.tonerBlack) 
-  tonerCyanCell.innerHTML = 'C ' + roundPercentage(printerData.tonerYellow) 
-  tonerMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.tonerMagenta) 
-  tonerYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.tonerYellow) 
+  tonerBlackCell.innerHTML = 'B ' + roundPercentage(printerData.tonerBlack)
+  tonerCyanCell.innerHTML = 'C ' + roundPercentage(printerData.tonerYellow)
+  tonerMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.tonerMagenta)
+  tonerYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.tonerYellow)
   tonerCell.appendChild(tonerTable)
 
-  const drumCell = row.insertCell(7);
-  const drumTable = document.createElement('table');
-  const drumRow = drumTable.insertRow(0);
+  const drumCell = row.insertCell(7)
+  const drumTable = document.createElement('table')
+  const drumRow = drumTable.insertRow(0)
 
   const drumBlackCell = drumRow.insertCell(0)
   const drumCyanCell = drumRow.insertCell(1)
@@ -119,9 +119,9 @@ export function addPrinterToTable(printerData) {
   const drumYellowCell = drumRow.insertCell(3)
 
   drumBlackCell.innerHTML = 'B ' + roundPercentage(printerData.drumBlack)
-  drumCyanCell.innerHTML = 'C '+ roundPercentage(printerData.drumCyan) 
-  drumMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.drumMagenta) 
-  drumYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.drumYellow) 
+  drumCyanCell.innerHTML = 'C ' + roundPercentage(printerData.drumCyan)
+  drumMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.drumMagenta)
+  drumYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.drumYellow)
   drumCell.appendChild(drumTable)
 
   const beltCell = row.insertCell(8)
@@ -130,10 +130,32 @@ export function addPrinterToTable(printerData) {
   nameCell.innerHTML = printerData.name
   locationCell.innerHTML = printerData.location
   statusCell.innerHTML = printerData.status
-  statusMessageCell.innerHTML = printerData.statusMessage;
+  statusMessageCell.innerHTML = printerData.statusMessage
   printerTextCell.innerHTML = printerData.printerText
   beltCell.innerHTML = roundPercentage(printerData.belt)
-  fuserCell.innerHTML = roundPercentage(printerData.fuser) 
+  fuserCell.innerHTML = roundPercentage(printerData.fuser)
+
+  // // Collapse button feature
+  document.getElementById('collapse-button').addEventListener('click', function () {
+    const table = document.getElementById('wepaTable');
+    // Loop through each row in the table
+    for(let i = 0; i < table.rows.length; i++) {
+      // loop through the last 6 cells in the row
+      for(let j = 4; j <= 10; j++) {
+        if(table.rows[i].cells[j]) {
+          if(table.rows[i].cells[j].style.display === 'none') {
+            table.rows[i].cells[j].style.display = '';
+            console.log('reached if statement')
+          }
+          else {
+            table.rows[i].cells[j].style.display = 'none';
+            console.log('reached else statement')
+          }
+        }
+      }
+    }
+  });
+
   const toggleSwitch = document.createElement('div')
   toggleSwitch.className = 'toggle'
   toggleSwitch.id = 'switch'
@@ -144,17 +166,17 @@ export function addPrinterToTable(printerData) {
     <div class='toggle-text-on'>ON</div>
   `
 
-if (alarms[printerData.name]) {
-  toggleSwitch.classList.add('toggle-on')
-}
+  if (alarms[printerData.name]) {
+    toggleSwitch.classList.add('toggle-on')
+  }
 
-toggleSwitch.addEventListener('click', (event) => {
-  alarms[printerData.name] = !alarms[printerData.name]
-  localStorage.setItem(printerData.name, alarms[printerData.name].toString())
-  event.currentTarget.classList.toggle('toggle-on')
-})
+  toggleSwitch.addEventListener('click', (event) => {
+    alarms[printerData.name] = !alarms[printerData.name]
+    localStorage.setItem(printerData.name, alarms[printerData.name].toString())
+    event.currentTarget.classList.toggle('toggle-on')
+  })
 
-alarmCell.appendChild(toggleSwitch)
+  alarmCell.appendChild(toggleSwitch)
   setTimeout(() => {
     if (
       (printerData.status === 'YELLOW' || printerData.status === 'RED') &&
@@ -170,6 +192,10 @@ alarmCell.appendChild(toggleSwitch)
     }
   }, 10000) // 10000 milliseconds = 10 seconds
 }
+
+
+
+
 
 export function refreshTable() {
   console.log('Refreshed Table:', new Date().toLocaleString())

@@ -1,15 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html,
 body {
-  height: 98.5%;
+  height: 100vh;
   width: 99.5%;
   padding: 0;
   margin: 0;
+  background-color: black;
 }
 body {
-  background-color: #000046;
-  font-family: 'Orbitron', sans-serif;
+  /* background-color: #000046; */
+  font-family: Arial, sans-serif;
   color: #ffffff;
   transition: all 0.5s ease;
+}
+
+.main {
+  display: flex;
+  justify-content:center;
+  /* align-items: center; */
+  flex-wrap: wrap;
+  padding: 10px;
+  height: 100%;
 }
 /* start of toggle switch CSS new */
 #switch {
@@ -132,14 +148,7 @@ body {
   transition: opacity 1s;
 }
 /* end of toggle switch CSS new */
-.main {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 20px;
-  height: 95%;
-}
+
 
 .popup-container {
   height: 30%;
@@ -290,7 +299,7 @@ body {
   opacity: 1;
 }
 
-#sound-test {
+.GUI-button {
   color: #ffffff;
   background-color: #8b00ff;
   border: none;
@@ -370,10 +379,11 @@ button:hover {
   color: #ffffff;
   background-color: #120136;
   border: 1px solid #8b00ff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 10px #8b00ff;
-  width: 20%;
+  flex: 0 0 20%;
+  margin-left: 20px;
 }
 /* Table and Tracker styling */
 .wepa-table,
@@ -387,14 +397,24 @@ button:hover {
   box-shadow: 0 0 10px #8b00ff;
 }
 
+.table-container {
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+
+
 .wepa-table {
   max-width: 1000px;
   border-collapse: collapse;
-  width: 40%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
+  font-family: 'Times New Roman', Times, serif;
   font-size: small;
 }
-
 th,
 td {
   padding: 15px;
