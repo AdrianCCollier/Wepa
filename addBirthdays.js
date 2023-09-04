@@ -17,6 +17,12 @@ connectToDatabase();
     birthDay: 9,
   });
 
+  let maurizeBirthday = new Birthday({
+    name: 'Maurize',
+    birthMonth: 11,
+    birthDay: 15,
+  });
+
   let aidanBirthday = new Birthday({
     name: 'Aidan',
     birthMonth: 7,
@@ -135,6 +141,18 @@ connectToDatabase();
     birthMonth: 5,
     birthDay: 21,
   });
+
+  let viviBirthday = new Birthday({
+    name: 'Vivi',
+    birthMonth: 5,
+    birthDay: 8
+  })
+
+  let gloriaBirthday = new Birthday({
+    name: 'Gloria',
+    birthMonth: '3',
+    birthDay: '6'
+  })
   const birthdays = [
     marysBirthday,
     luisBirthday,
@@ -158,6 +176,11 @@ connectToDatabase();
     ethanBirthday,
     jacquelineBirthday,
     toriBirthday,
+
+    maurizeBirthday,
+    viviBirthday,
+    gloriaBirthday
+
   ];
 
   await Birthday.deleteMany({});

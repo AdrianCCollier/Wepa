@@ -12,29 +12,26 @@ dotenv.config()
 const port = process.env.PORT || 3000
 const clientId = process.env.WEPA_CLIENT_ID
 const clientSecret = process.env.WEPA_CLIENT_SECRET
-let bearerToken;
+let bearerToken
 
 // Fetch new token
-(async () => {
+;(async () => {
   try {
-    bearerToken = await getAccessToken();
-  } catch(error) {
+    bearerToken = await getAccessToken()
+  } catch (error) {
     console.error('Error fetching initial access token', error)
   }
-})();
+})()
 const app = express()
-
 
 // Connect to database
 connectToDatabase()
-
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 app.set('views', 'public')
 
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
-
 
 // make API call with credentials derived from earlier bearer token
 // Store API response into data variable
@@ -62,8 +59,8 @@ async function getAccessToken() {
 }
 
 async function fetchPrinters() {
-  if(!bearerToken) {
-    bearerToken = await getAccessToken();
+  if (!bearerToken) {
+    bearerToken = await getAccessToken()
   }
   const response = await fetch(
     'https://api.wepanow.com/resources/groups/146/kiosks',
@@ -96,7 +93,7 @@ app.get('/printers', async (req, res) => {
   try {
     const printers = await fetchPrinters()
     res.json(printers)
-  } catch(error) {
+  } catch (error) {
     res.status(500).send(`Failed to fetch printers ${error}`)
   }
 })

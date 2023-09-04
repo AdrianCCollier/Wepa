@@ -18,6 +18,41 @@ export const kioskPositions = {
 }
 
 let alarms = {}
+let isTableMinimized = true;
+
+document.getElementById('wepaTable').classList.add('minimized-table');
+
+
+document
+  .getElementById('collapse-button')
+  .addEventListener('click', function () {
+    toggleTable();
+  })
+
+function toggleTable() {
+  console.log('toggle button pressed')
+
+  // Step 1: Fetch the table element
+  const table = document.getElementById('wepaTable')
+
+  // State 1: If minimized, maximize it
+  if (table.classList.contains('minimized-table')) {
+    // Step 3: Toggle the class
+    table.classList.remove('minimized-table')
+    table.classList.add('maximized-table')
+  // State 2: If maximized, minimize it
+  } else if (table.classList.contains('maximized-table')) {
+    table.classList.remove('maximized-table')
+    table.classList.add('minimized-table')
+  // State 3: If somehow neither, minimize it
+  } else {
+    table.classList.add('minimized-table')
+  }
+  // Console state output
+  console.log('Updated class list:', table.classList)
+}
+
+
 
 // Helper function to truncate toner/drum/fuser/belt percentages being returned as floats
 function roundPercentage(value) {
@@ -104,7 +139,7 @@ export function addPrinterToTable(printerData) {
   const tonerYellowCell = tonerRow.insertCell(3)
 
   tonerBlackCell.innerHTML = 'B ' + roundPercentage(printerData.tonerBlack)
-  tonerCyanCell.innerHTML = 'C ' + roundPercentage(printerData.tonerYellow)
+  tonerCyanCell.innerHTML = 'C ' + roundPercentage(printerData.tonerCyan)
   tonerMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.tonerMagenta)
   tonerYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.tonerYellow)
   tonerCell.appendChild(tonerTable)
@@ -127,35 +162,46 @@ export function addPrinterToTable(printerData) {
   const beltCell = row.insertCell(8)
   const fuserCell = row.insertCell(9)
 
-  nameCell.innerHTML = printerData.name
-  locationCell.innerHTML = printerData.location
-  statusCell.innerHTML = printerData.status
-  statusMessageCell.innerHTML = printerData.statusMessage
+  nameCell.innerHTML = printerData.name;
+  locationCell.innerHTML = printerData.location;
+  statusCell.innerHTML = printerData.status;
+
+
+  // Format the status message
+  const formattedStatusMessage = formatAlertMessage(printerData.statusMessage);
+  statusMessageCell.innerHTML = formattedStatusMessage;
+
+
   printerTextCell.innerHTML = printerData.printerText
+
+
+
   beltCell.innerHTML = roundPercentage(printerData.belt)
   fuserCell.innerHTML = roundPercentage(printerData.fuser)
 
-  // // Collapse button feature
-  document.getElementById('collapse-button').addEventListener('click', function () {
-    const table = document.getElementById('wepaTable');
-    // Loop through each row in the table
-    for(let i = 0; i < table.rows.length; i++) {
-      // loop through the last 6 cells in the row
-      for(let j = 4; j <= 10; j++) {
-        if(table.rows[i].cells[j]) {
-          if(table.rows[i].cells[j].style.display === 'none') {
-            table.rows[i].cells[j].style.display = '';
-            console.log('reached if statement')
-          }
-          else {
-            table.rows[i].cells[j].style.display = 'none';
-            console.log('reached else statement')
-          }
-        }
-      }
-    }
-  });
 
+// Helper function to format the String data from the WEPA API
+function formatAlertMessage(message) {
+  // Remove known prefix '||ALERT_PRINTER_'
+  let formattedMessage = message.substring(16)
+
+  // Split the message by underscores and capitalize the first letter of each word
+  const words = formattedMessage
+    .split('_')
+    .map(
+      (word) => word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()
+    )
+
+  // Join the words back together into a single string
+  return words.join(' ')
+}
+
+
+
+
+
+
+  // Ignore the code below this part, this toggleSwitch is referring to a different feature, which allows users to toggle alarms for each WEPA, not related to the toggling of the WEPA table states.
   const toggleSwitch = document.createElement('div')
   toggleSwitch.className = 'toggle'
   toggleSwitch.id = 'switch'
@@ -192,10 +238,6 @@ export function addPrinterToTable(printerData) {
     }
   }, 10000) // 10000 milliseconds = 10 seconds
 }
-
-
-
-
 
 export function refreshTable() {
   console.log('Refreshed Table:', new Date().toLocaleString())
