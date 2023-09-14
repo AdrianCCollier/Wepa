@@ -183,7 +183,10 @@ export function addPrinterToTable(printerData) {
 // Helper function to format the String data from the WEPA API
 function formatAlertMessage(message) {
   // Remove known prefix '||ALERT_PRINTER_'
-  let formattedMessage = message.substring(16)
+  let formattedMessage = message.replace(
+    '||ALERT_TRAY_MISSING||ALERT_PAPER_INCORRECT_TRAY_SIZE',
+    'Incorrect Paper Tray'
+  )
 
   // Split the message by underscores and capitalize the first letter of each word
   const words = formattedMessage
@@ -193,13 +196,8 @@ function formatAlertMessage(message) {
     )
 
   // Join the words back together into a single string
-  return words.join(' ')
+  return words.join(' ');
 }
-
-
-
-
-
 
   // Ignore the code below this part, this toggleSwitch is referring to a different feature, which allows users to toggle alarms for each WEPA, not related to the toggling of the WEPA table states.
   const toggleSwitch = document.createElement('div')
