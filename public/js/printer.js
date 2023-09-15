@@ -18,14 +18,12 @@ export const kioskPositions = {
 }
 
 let alarms = {}
-let isTableMinimized = true;
 
 document.getElementById('wepaTable').classList.add('minimized-table');
 
+const arrowIcon = document.querySelector('#collapse-arrow i');
 
-document
-  .getElementById('collapse-button')
-  .addEventListener('click', function () {
+document.getElementById('collapse-arrow').addEventListener('click', function () {
     toggleTable();
   })
 
@@ -35,15 +33,30 @@ function toggleTable() {
   // Step 1: Fetch the table element
   const table = document.getElementById('wepaTable')
 
+  // Fetch current default main state
+  const siteLayout = document.querySelector('.main');
+
+  const rightPanel = document.querySelector('.right-panel');
+
   // State 1: If minimized, maximize it
   if (table.classList.contains('minimized-table')) {
     // Step 3: Toggle the class
     table.classList.remove('minimized-table')
     table.classList.add('maximized-table')
+    siteLayout.style.flexDirection = 'column';
+    rightPanel.style.maxWidth = '300px';
+    rightPanel.style.marginTop = '15px';
+
+    arrowIcon.classList.remove('fa-arrow-right')
+    arrowIcon.classList.add('fa-arrow-left')
   // State 2: If maximized, minimize it
   } else if (table.classList.contains('maximized-table')) {
     table.classList.remove('maximized-table')
     table.classList.add('minimized-table')
+    siteLayout.style.flexDirection = 'row';
+
+    arrowIcon.classList.remove('fa-arrow-left');
+    arrowIcon.classList.add('fa-arrow-right');
   // State 3: If somehow neither, minimize it
   } else {
     table.classList.add('minimized-table')
