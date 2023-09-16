@@ -166,10 +166,15 @@ export function addPrinterToTable(printerData) {
   const drumMagentaCell = drumRow.insertCell(2)
   const drumYellowCell = drumRow.insertCell(3)
 
-  drumBlackCell.innerHTML = 'B ' + roundPercentage(printerData.drumBlack)
-  drumCyanCell.innerHTML = 'C ' + roundPercentage(printerData.drumCyan)
-  drumMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.drumMagenta)
-  drumYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.drumYellow)
+  let drumBlackPercentage = roundPercentage(printerData.drumBlack);
+  let drumCyanPercentage = roundPercentage(printerData.drumCyan);
+  let drumMagentaPercentage = roundPercentage(printerData.drumMagenta)
+  let drumYellowPercentage = roundPercentage(printerData.drumYellow)
+  
+  drumBlackCell.innerHTML = 'B ' + drumBlackPercentage;
+  drumCyanCell.innerHTML = 'C ' + drumCyanPercentage;
+  drumMagentaCell.innerHTML = 'M ' + drumMagentaPercentage;
+  drumYellowCell.innerHTML = 'Y ' + drumYellowPercentage;
   drumCell.appendChild(drumTable)
 
   const beltCell = row.insertCell(8)
@@ -185,21 +190,40 @@ export function addPrinterToTable(printerData) {
   statusMessageCell.innerHTML = formattedStatusMessage;
 
 
-  printerTextCell.innerHTML = printerData.printerText
+  printerTextCell.innerHTML = formatAlertMessage(printerData.printerText);
 
 
-
+  let beltCellPercentage = roundPercentage(printerData.belt);
+  let fuserCellPercentage = roundPercentage(printerData.fuser);
   beltCell.innerHTML = roundPercentage(printerData.belt)
   fuserCell.innerHTML = roundPercentage(printerData.fuser)
 
 
+
+
+
 // Helper function to format the String data from the WEPA API
 function formatAlertMessage(message) {
-  // Remove known prefix '||ALERT_PRINTER_'
+
+  const errormessagesMap = {
+    '||ALERT_TRAY_MISSING||ALERT_PAPER_INCORRECT_TRAY_SIZE':
+      'Incorrect Tray Size',
+    '||ALERT_TRAY_MISSING||ALERT_PAPER_OUT_ERROR': 'Out Of Paper',
+    '||ALERT_PRINTER_LOW_TONER_BLACK': 'Low Toner Black',
+    '||ALERT_PRINTER_LOW_TONER_YELLOW': 'Low Toner Yellow',
+    '||ALERT_PRINTER_LOW_TONER_MAGENTA': 'Low Toner Magenta',
+    '||ALERT_PRINTER_LOW_TONER_CYAN': 'Low Toner Cyan',
+    'Tray1 missingTray2 missing': 'Tray 1 or 2 Missing',
+  }
+
+  if(errormessagesMap[message]) {
+    return errormessagesMap[message];
+  }
+
   let formattedMessage = message.replace(
     '||ALERT_TRAY_MISSING||ALERT_PAPER_INCORRECT_TRAY_SIZE',
     'Incorrect Paper Tray'
-  )
+  ) 
 
   // Split the message by underscores and capitalize the first letter of each word
   const words = formattedMessage
@@ -210,10 +234,10 @@ function formatAlertMessage(message) {
 
   // Join the words back together into a single string
   return words.join(' ');
-}
+} // end formatAlertMessage
 
   // Ignore the code below this part, this toggleSwitch is referring to a different feature, which allows users to toggle alarms for each WEPA, not related to the toggling of the WEPA table states.
-  const toggleSwitch = document.createElement('div')
+  const toggleSwitch = document.createElement('div');
   toggleSwitch.className = 'toggle'
   toggleSwitch.id = 'switch'
   toggleSwitch.innerHTML = `
@@ -228,21 +252,27 @@ function formatAlertMessage(message) {
   }
 
   toggleSwitch.addEventListener('click', (event) => {
-    alarms[printerData.name] = !alarms[printerData.name]
-    localStorage.setItem(printerData.name, alarms[printerData.name].toString())
-    event.currentTarget.classList.toggle('toggle-on')
+    alarms[printerData.name] = !alarms[printerData.name];
+    localStorage.setItem(printerData.name, alarms[printerData.name].toString());
+    event.currentTarget.classList.toggle('toggle-on');
   })
 
   alarmCell.appendChild(toggleSwitch)
   setTimeout(() => {
+
+    const anyBeltLow = beltCellPercentage < 3;
+    const anyFuserLow = fuserCellPercentage < 3;
+
+    console.log(anyBeltLow, anyFuserLow)
     if (
-      (printerData.status === 'YELLOW' || printerData.status === 'RED') &&
+      (printerData.status === 'YELLOW' || printerData.status === 'RED' || anyBeltLow ||anyFuserLow) &&
       !isSnoozed &&
       alarms[printerData.name] // Only play the alarm if it is active for this printer
     ) {
       notif.classList.remove('hide')
       const volume = parseFloat(document.querySelector('#volume-slider').value)
-      audio.volume = volume
+      audio.volume = volume;
+
       audio.play().catch((error) => {
         console.log('audio play failed due to', error)
       })

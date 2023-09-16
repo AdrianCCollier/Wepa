@@ -1,3 +1,5 @@
+
+
 * {
     margin: 0;
     padding: 0;
@@ -14,7 +16,7 @@ body {
 }
 body {
   /* background-color: #000046; */
-  font-family: Arial, sans-serif;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
   color: #ffffff;
   transition: all 0.5s ease;
 }
@@ -398,8 +400,8 @@ button:hover {
   border-collapse: collapse;
   width: 100%;
   height: 100%;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: small;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: medium;
   
 }
 
@@ -422,8 +424,7 @@ button:hover {
 .maximized-table td:nth-child(n+1) {
   /* width: 50%;
   height: 100%; */
-  padding: 7px;
-  margin: 5px;
+  padding: 5px;
   font-size: 15px;
 }
 
@@ -510,18 +511,24 @@ td:hover {
   max-width: 700px;
 }
 
-.wepa-table {
+.wepa-table .wepa-table * {
   max-width: 1000px;
   border-collapse: collapse;
   width: 100%;
   height: 100%;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: small;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: medium;
 }
+
 
 .minimized-table th:nth-child(n+5),
 .minimized-table td:nth-child(n+5) {
   display: none;
+}
+
+.minimized-table th:nth-child(n+1),
+.minimized-table td:nth-child(n+1) {
+  padding: 11px;
 }
 .maximized-table th:nth-child(n+5),
 .maximized-table td:nth-child(n+5) {
@@ -585,14 +592,15 @@ td:hover {
 }
 
 .birthday-tracker {
-  width: 75%;
-  max-width: 500px;
+  width: 100%;
   margin: auto;
+  text-align: center;
 }
 
 .birthday-tracker h2 {
   color: #8b00ff;
   text-shadow: 0 0 10px #8b00ff;
+  text-align: center; 
 }
 
 .birthday-tracker ul {
@@ -610,6 +618,38 @@ td:hover {
   margin-right: 10px;
   width: 30px;
 }
+
+
+/*scrollbar */
+/* For Webkit browsers like Chrome, Safari */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the vertical scrollbar */
+    height: 10px; /* Height for the horizontal scrollbar, if present */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #8b00ff; /* Color of the draggable scrolling handle */
+    border-radius: 5px; /* Makes the handle rounded */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #8b5ab3; /* Color of the handle when you hover over it */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the track that the handle moves on */
+    border-radius: 5px; /* Makes the track rounded */
+}
+
+/* For Firefox */
+scrollbar-width: thin; /* Makes the scrollbar thinner than the default */
+scrollbar-color: #888 #f1f1f1; /* First color is the handle, second color is the track */
+
+
+
 
 
 /* Media Queries for Responsiveness */
