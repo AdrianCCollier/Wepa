@@ -540,6 +540,24 @@ td:hover {
   margin-left: 5px;
 
 }
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blinking-text {
+  animation: blink 5s linear infinite;
+}
+
+.yellow-status {
+    background-color: yellow;
+}
+
+.red-status {
+    background-color: red;
+}
+
 
 #collapse-arrow:hover {
   color: #ffffff;

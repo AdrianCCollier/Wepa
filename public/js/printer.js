@@ -199,6 +199,19 @@ export function addPrinterToTable(printerData) {
   fuserCell.innerHTML = roundPercentage(printerData.fuser)
 
 
+  // if(printerData.status === 'GREEN') {
+  //   statusCell.style.color = 'green';
+  // }
+  if(printerData.status === 'YELLOW') {
+    statusCell.style.color = 'yellow';
+    // statusCell.classList.add('blinking-text')
+  }
+
+  if(printerData.status === 'RED') {
+    statusCell.style.color = 'red';
+    // statusCell.classList.add('blinking-text');
+    
+  }
 
 
 
@@ -263,13 +276,13 @@ function formatAlertMessage(message) {
     const anyBeltLow = beltCellPercentage < 3;
     const anyFuserLow = fuserCellPercentage < 3;
 
-    console.log(anyBeltLow, anyFuserLow)
     if (
       (printerData.status === 'YELLOW' || printerData.status === 'RED' || anyBeltLow ||anyFuserLow) &&
       !isSnoozed &&
       alarms[printerData.name] // Only play the alarm if it is active for this printer
     ) {
       notif.classList.remove('hide')
+      
       const volume = parseFloat(document.querySelector('#volume-slider').value)
       audio.volume = volume;
 
