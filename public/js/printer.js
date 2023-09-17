@@ -14,7 +14,7 @@ export const orderArray = ['00840', '03332']
 
 export const kioskPositions = {
   KIOSK_PROD_00846: 'Zuhl, Left Kiosk',
-  KIOSK_PROD_00912: 'Zuhl, Right Kiosk',
+  KIOSK_PROD_00912: 'Branson Library',
 }
 
 let alarms = {}
@@ -46,6 +46,7 @@ function toggleTable() {
     siteLayout.style.flexDirection = 'column';
     rightPanel.style.maxWidth = '300px';
     rightPanel.style.marginTop = '15px';
+    rightPanel.classList.add('right-panel-align');
 
     arrowIcon.classList.remove('fa-arrow-right')
     arrowIcon.classList.add('fa-arrow-left')
@@ -54,6 +55,8 @@ function toggleTable() {
     table.classList.remove('maximized-table')
     table.classList.add('minimized-table')
     siteLayout.style.flexDirection = 'row';
+    rightPanel.style.marginTop = '7%'
+    table.style.marginLeft = '10%'
 
     arrowIcon.classList.remove('fa-arrow-left');
     arrowIcon.classList.add('fa-arrow-right');
@@ -151,10 +154,15 @@ export function addPrinterToTable(printerData) {
   const tonerMagentaCell = tonerRow.insertCell(2)
   const tonerYellowCell = tonerRow.insertCell(3)
 
-  tonerBlackCell.innerHTML = 'B ' + roundPercentage(printerData.tonerBlack)
-  tonerCyanCell.innerHTML = 'C ' + roundPercentage(printerData.tonerCyan)
-  tonerMagentaCell.innerHTML = 'M ' + roundPercentage(printerData.tonerMagenta)
-  tonerYellowCell.innerHTML = 'Y ' + roundPercentage(printerData.tonerYellow)
+  let tonerBlackPercentage = roundPercentage(printerData.tonerBlack)
+  let tonerCyanPercentage = roundPercentage(printerData.tonerCyan)
+  let tonerYellowPercentage = roundPercentage(printerData.tonerYellow)
+  let tonerMagentaPercentage = roundPercentage(printerData.tonerMagenta)
+
+  tonerBlackCell.innerHTML = 'B ' + tonerBlackPercentage
+  tonerCyanCell.innerHTML = 'C ' + tonerCyanPercentage
+  tonerMagentaCell.innerHTML = 'M ' + tonerMagentaPercentage
+  tonerYellowCell.innerHTML = 'Y ' + tonerYellowPercentage
   tonerCell.appendChild(tonerTable)
 
   const drumCell = row.insertCell(7)
@@ -166,91 +174,176 @@ export function addPrinterToTable(printerData) {
   const drumMagentaCell = drumRow.insertCell(2)
   const drumYellowCell = drumRow.insertCell(3)
 
-  let drumBlackPercentage = roundPercentage(printerData.drumBlack);
-  let drumCyanPercentage = roundPercentage(printerData.drumCyan);
+  let drumBlackPercentage = roundPercentage(printerData.drumBlack)
+  let drumCyanPercentage = roundPercentage(printerData.drumCyan)
   let drumMagentaPercentage = roundPercentage(printerData.drumMagenta)
   let drumYellowPercentage = roundPercentage(printerData.drumYellow)
-  
-  drumBlackCell.innerHTML = 'B ' + drumBlackPercentage;
-  drumCyanCell.innerHTML = 'C ' + drumCyanPercentage;
-  drumMagentaCell.innerHTML = 'M ' + drumMagentaPercentage;
-  drumYellowCell.innerHTML = 'Y ' + drumYellowPercentage;
+
+  drumBlackCell.innerHTML = 'B ' + drumBlackPercentage
+  drumCyanCell.innerHTML = 'C ' + drumCyanPercentage
+  drumMagentaCell.innerHTML = 'M ' + drumMagentaPercentage
+  drumYellowCell.innerHTML = 'Y ' + drumYellowPercentage
   drumCell.appendChild(drumTable)
 
   const beltCell = row.insertCell(8)
   const fuserCell = row.insertCell(9)
 
-  nameCell.innerHTML = printerData.name;
-  locationCell.innerHTML = printerData.location;
-  statusCell.innerHTML = printerData.status;
-
+  nameCell.innerHTML = printerData.name
+  locationCell.innerHTML = printerData.location
+  statusCell.innerHTML = printerData.status
 
   // Format the status message
-  const formattedStatusMessage = formatAlertMessage(printerData.statusMessage);
-  statusMessageCell.innerHTML = formattedStatusMessage;
+  const formattedStatusMessage = formatAlertMessage(printerData.statusMessage)
+  statusMessageCell.innerHTML = formattedStatusMessage
 
+  printerTextCell.innerHTML = formatAlertMessage(printerData.printerText)
 
-  printerTextCell.innerHTML = formatAlertMessage(printerData.printerText);
-
-
-  let beltCellPercentage = roundPercentage(printerData.belt);
-  let fuserCellPercentage = roundPercentage(printerData.fuser);
+  let beltCellPercentage = roundPercentage(printerData.belt)
+  let fuserCellPercentage = roundPercentage(printerData.fuser)
   beltCell.innerHTML = roundPercentage(printerData.belt)
   fuserCell.innerHTML = roundPercentage(printerData.fuser)
 
 
-  // if(printerData.status === 'GREEN') {
-  //   statusCell.style.color = 'green';
-  // }
-  if(printerData.status === 'YELLOW') {
-    statusCell.style.color = 'yellow';
+  // Color Coding Alerts
+
+  if (printerData.status === 'YELLOW') {
+    statusCell.style.color = 'yellow'
     // statusCell.classList.add('blinking-text')
   }
 
-  if(printerData.status === 'RED') {
-    statusCell.style.color = 'red';
+  if (printerData.status === 'RED') {
+    statusCell.style.color = 'red'
     // statusCell.classList.add('blinking-text');
-    
   }
 
-
-
-// Helper function to format the String data from the WEPA API
-function formatAlertMessage(message) {
-
-  const errormessagesMap = {
-    '||ALERT_TRAY_MISSING||ALERT_PAPER_INCORRECT_TRAY_SIZE':
-      'Incorrect Tray Size',
-    '||ALERT_TRAY_MISSING||ALERT_PAPER_OUT_ERROR': 'Out Of Paper',
-    '||ALERT_PRINTER_LOW_TONER_BLACK': 'Low Toner Black',
-    '||ALERT_PRINTER_LOW_TONER_YELLOW': 'Low Toner Yellow',
-    '||ALERT_PRINTER_LOW_TONER_MAGENTA': 'Low Toner Magenta',
-    '||ALERT_PRINTER_LOW_TONER_CYAN': 'Low Toner Cyan',
-    'Tray1 missingTray2 missing': 'Tray 1 or 2 Missing',
+  if (beltCellPercentage <= 5 && beltCellPercentage > 2) {
+    beltCell.style.color = 'yellow'
   }
 
-  if(errormessagesMap[message]) {
-    return errormessagesMap[message];
+  if (beltCellPercentage <= 2) {
+    beltCell.style.color = 'red'
   }
 
-  let formattedMessage = message.replace(
-    '||ALERT_TRAY_MISSING||ALERT_PAPER_INCORRECT_TRAY_SIZE',
-    'Incorrect Paper Tray'
-  ) 
+  if (fuserCellPercentage <= 5 && fuserCellPercentage > 2) {
+    fuserCell.style.color = 'yellow'
+  }
 
-  // Split the message by underscores and capitalize the first letter of each word
-  const words = formattedMessage
-    .split('_')
-    .map(
-      (word) => word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()
+  if (fuserCellPercentage <= 2) {
+    fuserCell.style.color = 'red'
+  }
+
+  // TONER COLORS
+
+  // Black
+  if (tonerBlackPercentage <= 5 && tonerBlackPercentage > 2) {
+    tonerBlackCell.style.color = 'yellow'
+  }
+
+  if (tonerBlackPercentage <= 2) {
+    tonerBlackCell.style.color = 'red'
+  }
+  // Cyan
+  if (tonerCyanPercentage <= 5 && tonerCyanPercentage > 2) {
+    tonerCyanCell.style.color = 'yellow'
+  }
+
+  if (tonerCyanPercentage <= 2) {
+    tonerCyanCell.style.color = 'red'
+  }
+  // Magenta
+  if (tonerMagentaPercentage <= 5 && tonerMagentaPercentage > 2) {
+    tonerMagentaCell.style.color = 'yellow'
+  }
+
+  if (tonerMagentaPercentage <= 2) {
+    tonerMagentaCell.style.color = 'red'
+  }
+
+  // Yellow
+  if (tonerYellowPercentage <= 5 && tonerYellowPercentage > 2) {
+    tonerYellowCell.style.color = 'yellow'
+  }
+
+  if (tonerYellowPercentage <= 2) {
+    tonerYellowCell.style.color = 'red'
+  }
+
+  // DRUMS
+
+  // Black
+  if (drumBlackPercentage <= 5 && drumBlackPercentage > 2) {
+    drumBlackCell.style.color = 'yellow'
+  }
+
+  if (drumBlackPercentage <= 2) {
+    drumBlackCell.style.color = 'red'
+  }
+  // Cyan
+  if (drumCyanPercentage <= 5 && drumCyanPercentage > 2) {
+    drumCyanCell.style.color = 'yellow'
+  }
+
+  if (drumCyanPercentage <= 2) {
+    drumCyanCell.style.color = 'red'
+  }
+  // Magenta
+  if (drumMagentaPercentage <= 5 && drumMagentaPercentage > 2) {
+    drumMagentaCell.style.color = 'yellow'
+  }
+
+  if (drumMagentaPercentage <= 2) {
+    drumMagentaCell.style.color = 'red'
+  }
+
+  // Yellow
+  if (drumYellowPercentage <= 5 && drumYellowPercentage > 2) {
+    drumYellowCell.style.color = 'yellow'
+  }
+
+  if (drumYellowPercentage <= 2) {
+    drumYellowCell.style.color = 'red'
+  }
+
+  // Helper function to format the String data from the WEPA API
+  function formatAlertMessage(message) {
+    const errormessagesMap = {
+      '||ALERT_TRAY_MISSING||ALERT_PAPER_INCORRECT_TRAY_SIZE':
+        'Incorrect Tray Size',
+      '||ALERT_TRAY_MISSING||ALERT_PAPER_OUT_ERROR': 'Alert Paper Out Error',
+      '||ALERT_PAPER_LOW_LETTER': 'Alert Paper Low',
+      '||ALERT_PRINTER_LOW_TONER_BLACK': 'Black Toner Getting Low',
+      '||ALERT_PRINTER_LOW_TONER_YELLOW': 'Yellow Toner Getting Low',
+      '||ALERT_PRINTER_LOW_TONER_MAGENTA': 'Magenta Toner Getting Low',
+      '||ALERT_PRINTER_LOW_TONER_CYAN': 'Cyan Toner Getting Low',
+      'Tray1 missingTray2 missing': 'Tray 1 or 2 Missing',
+      '||ALERT_PRINTER_CRITICAL_TONER_BLACK': 'Black Toner Level Critical',
+      '||ALERT_PRINTER_CRITICAL_TONER_YELLOW': 'Yellow Toner Level Critical',
+      '||ALERT_PRINTER_CRITICAL_TONER_MAGENTA': 'Magenta Toner Level Critical',
+      '||ALERT_PRINTER_CRITICAL_TONER_CYAN': 'Cyan Toner Level Critical',
+    }
+
+    if (errormessagesMap[message]) {
+      return errormessagesMap[message]
+    }
+
+    let formattedMessage = message.replace(
+      '||ALERT_TRAY_MISSING||ALERT_PAPER_INCORRECT_TRAY_SIZE',
+      'Incorrect Paper Tray'
     )
 
-  // Join the words back together into a single string
-  return words.join(' ');
-} // end formatAlertMessage
+    // Split the message by underscores and capitalize the first letter of each word
+    const words = formattedMessage
+      .split('_')
+      .map(
+        (word) => word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()
+      )
+
+    // Join the words back together into a single string
+    return words.join(' ')
+  } // end formatAlertMessage
 
   // Ignore the code below this part, this toggleSwitch is referring to a different feature, which allows users to toggle alarms for each WEPA, not related to the toggling of the WEPA table states.
-  const toggleSwitch = document.createElement('div');
+  const toggleSwitch = document.createElement('div')
   toggleSwitch.className = 'toggle'
   toggleSwitch.id = 'switch'
   toggleSwitch.innerHTML = `
@@ -265,26 +358,28 @@ function formatAlertMessage(message) {
   }
 
   toggleSwitch.addEventListener('click', (event) => {
-    alarms[printerData.name] = !alarms[printerData.name];
-    localStorage.setItem(printerData.name, alarms[printerData.name].toString());
-    event.currentTarget.classList.toggle('toggle-on');
+    alarms[printerData.name] = !alarms[printerData.name]
+    localStorage.setItem(printerData.name, alarms[printerData.name].toString())
+    event.currentTarget.classList.toggle('toggle-on')
   })
 
   alarmCell.appendChild(toggleSwitch)
   setTimeout(() => {
-
     const anyBeltLow = beltCellPercentage < 3;
     const anyFuserLow = fuserCellPercentage < 3;
 
     if (
-      (printerData.status === 'YELLOW' || printerData.status === 'RED' || anyBeltLow ||anyFuserLow) &&
+      (printerData.status === 'YELLOW' ||
+        printerData.status === 'RED' ||
+        anyBeltLow ||
+        anyFuserLow) &&
       !isSnoozed &&
       alarms[printerData.name] // Only play the alarm if it is active for this printer
     ) {
       notif.classList.remove('hide')
-      
+
       const volume = parseFloat(document.querySelector('#volume-slider').value)
-      audio.volume = volume;
+      audio.volume = volume
 
       audio.play().catch((error) => {
         console.log('audio play failed due to', error)

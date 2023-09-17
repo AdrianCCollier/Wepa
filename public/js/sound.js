@@ -35,11 +35,11 @@ document.querySelector('#closenotif').addEventListener('click', () => {
   if (snoozeTimeout) clearTimeout(snoozeTimeout)
   audio.pause()
 
-  // Set timeout to resume play in 5 minutes
+  // Set timeout to resume play in 10 minutes
   snoozeTimeout = setTimeout(() => {
     audio.play()
     notif.classList.remove('hide')
-  }, 300000)
+  }, 600000)
 
   isSnoozed = true
 })
